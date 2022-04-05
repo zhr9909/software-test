@@ -3,20 +3,23 @@
 # Press Shift+F10 to execute it or replace it with your code.
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
 from selenium import webdriver
-browser=webdriver.Firefox()
-browser.get('http://localhost:8000')
+import unittest
 
-assert 'Django' in browser.title
+class NewVisitorTest(unittest.TestCase):
+    browser = webdriver.Firefox()
+    def setup(self):
+        self.browser = webdriver.Firefox()
 
-browser.quit()
+    def tearDown(self):
+        self.browser.quit()
 
-"""def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+    def test_can_start_a_list_and_retrieve_it_later(self):
+        self.browser.get('http://localhost:8000')
+        self.assertIn('To-Do', self.browser.title)
+        self.fail('Finish the test!')
 
 
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print_hi('PyCharm')
-"""
+    unittest.main(warnings='ignore')
+
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
