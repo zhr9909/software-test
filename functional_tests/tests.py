@@ -2,6 +2,7 @@
 
 # Press Shift+F10 to execute it or replace it with your code.
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+from django.test import LiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
@@ -9,7 +10,7 @@ import unittest
 import time
 
 
-class NewVisitorTest(unittest.TestCase):
+class NewVisitorTest(LiveServerTestCase):
     browser = webdriver.Firefox()
 
     def setup(self):
@@ -18,13 +19,13 @@ class NewVisitorTest(unittest.TestCase):
     def tearDown(self):
         self.browser.quit()
 
-    def check_for_row_in_list_table(self,row_text):
+    def check_for_row_in_list_table(self, row_text):
         table = self.browser.find_element(By.ID, 'id_list_table')
         rows = table.find_elements(By.TAG_NAME, 'tr')
         self.assertIn('1: Buy peacock feathers', [row.text for row in rows])
 
     def test_can_start_a_list_and_retrieve_it_later(self):
-        self.browser.get('http://localhost:8000')
+        self.browser.get(self.live_server_url)
         self.assertIn('To-Do', self.browser.title)
 
         header_text = self.browser.find_element(By.TAG_NAME, 'h1').text
@@ -50,8 +51,7 @@ class NewVisitorTest(unittest.TestCase):
 
         self.fail('Finish the test!')
 
-
-if __name__ == '__main__':
-    unittest.main(warnings='ignore')
+# if __name__ == '__main__':
+#    unittest.main(warnings='ignore')
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
